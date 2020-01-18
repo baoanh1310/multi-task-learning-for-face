@@ -4,6 +4,7 @@ import os
 
 import config
 import data_provider
+import data_utils
 
 class Multitask_BKNet(object):
     def __init__(self, session):
@@ -39,7 +40,9 @@ class Multitask_BKNet(object):
 
         self.saver_all = tf.train.Saver(tf.all_variables(), max_to_keep=5)
         self.checkpoint_path = os.path.join(self.model_dir, 'model.ckpt')
-        ckpt = tf.train.get_checkpoint_state(self.model_dir)
+        SAVE_FOLDER = os.path.join(os.getcwd(), 'checkpoints')
+        MODEL_FOLDER = os.path.join(SAVE_FOLDER, '17012020')
+        ckpt = tf.train.get_checkpoint_state(MODEL_FOLDER)
 
         if ckpt:
             print('Reading model parameters from %s', ckpt.model_checkpoint_path)
@@ -205,6 +208,7 @@ class Multitask_BKNet(object):
                             gender_nb_train += 1
                         else:
                             age_nb_train += 1
+                # batch_image = data_utils.augmentation(batch_image, 48)
 
                 feed_dict = {self.input_images: batch_image,
                             self.input_labels: batch_label,
@@ -249,4 +253,4 @@ class Multitask_BKNet(object):
             print('Gender task train accuracy: ' + str(gender_train_accuracy * 100))
             print('Age task train accuracy: ' + str(age_train_accuracy * 100))
 
-            self.saver_all.save(self.sess, self.model_dir + 'model.ckpt')
+            self.saver_all.save(self.sess, self.model_dir + '/model.ckpt')
