@@ -7,7 +7,7 @@ import data_provider
 import data_utils
 
 class Multitask_BKNet(object):
-    def __init__(self, session):
+    def __init__(self, session, is_training=True):
         self.global_step = tf.get_variable(name='global_step', initializer=tf.constant(0), trainable=False)
         self.model_dir = config.MODEL_DIR
         self.num_epochs = config.NUM_EPOCHS
@@ -34,7 +34,8 @@ class Multitask_BKNet(object):
         # Learning rate and train op
         self.train_step = tf.train.AdamOptimizer(learning_rate=1e-3).minimize(self.total_loss, global_step=self.global_step)
 
-        self.train_data = data_provider.Dataset('train', self.batch_size)
+        if is_training:
+            self.train_data = data_provider.Dataset('train', self.batch_size)
         # self.public_test_data = data_provider.Dataset('public_test', self.batch_size)
         # self.private_test_data = data_provider.Dataset('private_test', self.batch_size)
 

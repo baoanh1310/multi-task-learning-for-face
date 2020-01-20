@@ -34,7 +34,7 @@ time.sleep(2.0)
 
 # load multi-task model
 sess = tf.InteractiveSession()
-test_model = model.Multitask_BKNet(sess)
+test_model = model.Multitask_BKNet(sess, False)
 
 SMILE_INDEX = {0: 'Not Smile', 1: 'Smile'}
 EMOTION_INDEX = {0: 'Angry', 1: 'Disgust', 2: 'Fear', 3: 'Happy', 4: 'Sad', 5: 'Surprise', 6: 'Neutral'}
