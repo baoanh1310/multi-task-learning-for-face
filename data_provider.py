@@ -6,8 +6,8 @@ import cv2
 
 import data_utils
 
-AGE_LABEL_DICT = {'1-10': '0', '10-20': '1', '20-30': '2', '30-40': '3',
-				  '40-50': '4', '50-60': '5', '60-70': '6'}
+AGE_LABEL_DICT = {'1-11': '0', '11-20': '1', '21-30': '2', '31-40': '3',
+				  '41-50': '4', '51-60': '5', '61-70': '6'}
 
 class Dataset(object):
 	def __init__(self, data_type, batch_size):
