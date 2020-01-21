@@ -6,8 +6,8 @@ import cv2
 
 import data_utils
 
-AGE_LABEL_DICT = {'1-10': '0', '11-20': '1', '21-30': '2', '31-40': '3',
-				  '41-50': '4', '51-60': '5', '61-70': '6'}
+AGE_LABEL_DICT = {'1-10': '0', '10-20': '1', '20-30': '2', '30-40': '3',
+				  '40-50': '4', '50-60': '5', '60-70': '6'}
 
 class Dataset(object):
 	def __init__(self, data_type, batch_size):
@@ -113,3 +113,5 @@ class Dataset(object):
 			if self.data_type == 'private_test':
 				for i in range(len(self.emotion_private_test)):
 					self.all_data.append((self.emotion_private_test[i][0], self.emotion_private_test[i][1], 2.0))
+
+		# np.random.shuffle(self.all_data)
