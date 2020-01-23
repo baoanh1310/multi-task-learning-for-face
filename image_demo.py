@@ -1,5 +1,5 @@
 # USAGE
-# python image_demo.py --image face.jpg --prototxt ./face_detector/deploy.prototxt.txt --model ./face_detector/res10_300x300_ssd_iter_140000.caffemodel
+# python image_demo.py --image sad.jpg --prototxt ./face_detector/deploy.prototxt.txt --model ./face_detector/res10_300x300_ssd_iter_140000.caffemodel
 
 import os
 import cv2

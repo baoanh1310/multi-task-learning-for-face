@@ -42,7 +42,7 @@ class Multitask_BKNet(object):
         self.saver_all = tf.train.Saver(tf.all_variables(), max_to_keep=5)
         self.checkpoint_path = os.path.join(self.model_dir, 'model.ckpt')
         SAVE_FOLDER = os.path.join(os.getcwd(), 'checkpoints')
-        MODEL_FOLDER = os.path.join(SAVE_FOLDER, '17012020')
+        MODEL_FOLDER = os.path.join(SAVE_FOLDER, '21012020')
         ckpt = tf.train.get_checkpoint_state(MODEL_FOLDER)
 
         if ckpt:
