@@ -41,8 +41,13 @@ class Multitask_BKNet(object):
 
         self.saver_all = tf.train.Saver(tf.all_variables(), max_to_keep=5)
         self.checkpoint_path = os.path.join(self.model_dir, 'model.ckpt')
+<<<<<<< HEAD
         SAVE_FOLDER = os.path.join(os.getcwd(), 'checkpoints')
         MODEL_FOLDER = os.path.join(SAVE_FOLDER, '21012020')
+=======
+        # SAVE_FOLDER = os.path.join(os.getcwd(), 'checkpoints')
+        MODEL_FOLDER = os.path.join(os.getcwd(), config.MODEL_DIR)
+>>>>>>> f73250376ce85847f7458f0576b0c83585a0ae42
         ckpt = tf.train.get_checkpoint_state(MODEL_FOLDER)
 
         if ckpt:
@@ -125,22 +130,22 @@ class Multitask_BKNet(object):
         # Smile branch
         smile_fc1 = self._FC('smile_fc1', x, 256, self.keep_prob)
         smile_fc2 = self._FC('smile_fc2', smile_fc1, 256, self.keep_prob)
-        self.y_smile_conv = self._FC('smile_softmax', smile_fc2, 2, self.keep_prob, 'linear')
+        self.y_smile_conv = self._FC('smile_softmax', smile_fc2, 2, self.keep_prob, 'softmax')
 
         # Emotion branch
         emotion_fc1 = self._FC('emotion_fc1', x, 256, self.keep_prob)
         emotion_fc2 = self._FC('emotion_fc2', emotion_fc1, 256, self.keep_prob)
-        self.y_emotion_conv = self._FC('emotion_softmax', emotion_fc2, 7, self.keep_prob, 'linear')
+        self.y_emotion_conv = self._FC('emotion_softmax', emotion_fc2, 7, self.keep_prob, 'softmax')
 
         # Gender branch
         gender_fc1 = self._FC('gender_fc1', x, 256, self.keep_prob)
         gender_fc2 = self._FC('gender_fc2', gender_fc1, 256, self.keep_prob)
-        self.y_gender_conv = self._FC('gender_softmax', gender_fc2, 2, self.keep_prob, 'linear')
+        self.y_gender_conv = self._FC('gender_softmax', gender_fc2, 2, self.keep_prob, 'softmax')
 
         # Age branch
         age_fc1 = self._FC('age_fc1', x, 256, self.keep_prob)
         age_fc2 = self._FC('age_fc2', age_fc1, 256, self.keep_prob)
-        self.y_age_conv = self._FC('age_softmax', age_fc2, 7, self.keep_prob, 'linear')
+        self.y_age_conv = self._FC('age_softmax', age_fc2, 7, self.keep_prob, 'softmax')
 
     def _define_loss(self):
         self.smile_mask = tf.cast(tf.equal(self.input_indexes, 1), tf.float32)

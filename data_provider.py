@@ -113,3 +113,5 @@ class Dataset(object):
 			if self.data_type == 'private_test':
 				for i in range(len(self.emotion_private_test)):
 					self.all_data.append((self.emotion_private_test[i][0], self.emotion_private_test[i][1], 2.0))
+
+		# np.random.shuffle(self.all_data)

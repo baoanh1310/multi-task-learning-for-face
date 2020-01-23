@@ -1,6 +1,0 @@
-tensorflow==1.15
-opencv
-imutils
-numpy
-jupyter
-h5py
