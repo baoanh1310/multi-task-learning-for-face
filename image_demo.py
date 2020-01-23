@@ -1,5 +1,5 @@
 # USAGE
-# python image_demo.py --image sad.jpg --prototxt ./face_detector/deploy.prototxt.txt --model ./face_detector/res10_300x300_ssd_iter_140000.caffemodel
+# python image_demo.py --image disgust.jpg --prototxt ./face_detector/deploy.prototxt.txt --model ./face_detector/res10_300x300_ssd_iter_140000.caffemodel
 
 import os
 import cv2
@@ -19,7 +19,7 @@ EMOTION_INDEX = {0: 'Angry', 1: 'Disgust', 2: 'Fear', 3: 'Happy', 4: 'Sad', 5: '
 GENDER_INDEX = {0: 'Female', 1: 'Male'}
 AGE_INDEX = {0: '1-10', 1: '11-20', 2: '21-30', 3: '31-40', 4: '41-50', 5: '51-60', 6: '61-70'}
 
-DEFAULT_CONFIDENCE = 0.3
+DEFAULT_CONFIDENCE = 0.95
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
