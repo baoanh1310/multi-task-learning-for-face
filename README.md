@@ -2,7 +2,9 @@
 Smile - Emotion - Gender - Age Multi-task learning using BKNet / ResNet
 
 ## Installation
-pip install -r requirements.txt
+```console
+  pip install -r requirements.txt
+```
 
 ## How to use it
 ```console
