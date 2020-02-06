@@ -11,4 +11,3 @@ scipy
 matplotlib
 imutils
 argparse
-tensorflow==1.15
