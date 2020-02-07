@@ -1,5 +1,5 @@
 # USAGE
-# python video_demo.py --video clip.mp4 --prototxt ./face_detector/deploy.prototxt.txt --model ./face_detector/res10_300x300_ssd_iter_140000.caffemodel
+# python video_demo.py --video video.mp4 --output output.avi --prototxt ./face_detector/deploy.prototxt.txt --model ./face_detector/res10_300x300_ssd_iter_140000.caffemodel
 
 # import the necessary packages
 from imutils.video import FileVideoStream
@@ -35,6 +35,12 @@ ap.add_argument("-m", "--model", required=True,
 	help="path to Caffe pre-trained model")
 ap.add_argument("-c", "--confidence", type=float, default=0.3,
 	help="minimum probability to filter weak detections")
+ap.add_argument("-o", "--output", required=True,
+    help="path to output video file")
+ap.add_argument("-f", "--fps", type=int, default=40,
+    help="FPS of output video")
+ap.add_argument("-co", "--codec", type=str, default="MJPG",
+    help="codec of output video")
 args = vars(ap.parse_args())
 
 # load our serialized model from disk
@@ -47,11 +53,18 @@ print("[INFO] starting video file...")
 fvs = FileVideoStream(args["video"]).start()
 time.sleep(2.0)
 
+# init the FourCC, video writer, dimensions of the frame
+fourcc = cv2.VideoWriter_fourcc(*args["codec"])
+writer = None
+
 while fvs.more():
     frame = fvs.read()
     frame = imutils.resize(frame, width=800)
 
-    (h, w) = frame.shape[:2]
+    if writer is None:
+        (h, w) = frame.shape[:2]
+        writer = cv2.VideoWriter(args["output"], fourcc, args["fps"], (w, h), True)
+
     blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0, (300, 300), (104, 177.0, 123.0))
 
     net.setInput(blob)
@@ -92,8 +105,17 @@ while fvs.more():
         cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 0, 255), 2)
         cv2.putText(frame, text, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
 
+    # write the output frame to file
+    writer.write(frame)
+
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
 
     if key == ord("q"):
         break
+
+# do a bit of cleanup
+print("[INFO] cleaning up...")
+cv2.destroyAllWindows()
+fvs.stop()
+writer.release()
