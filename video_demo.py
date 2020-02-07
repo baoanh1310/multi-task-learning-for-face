@@ -1,5 +1,5 @@
 # USAGE
-# python video_demo.py --video video.mp4 --output output.avi --prototxt ./face_detector/deploy.prototxt.txt --model ./face_detector/res10_300x300_ssd_iter_140000.caffemodel
+# python video_demo.py --video clip.mp4 --output output1.avi --prototxt ./face_detector/deploy.prototxt.txt --model ./face_detector/res10_300x300_ssd_iter_140000.caffemodel
 
 # import the necessary packages
 from imutils.video import FileVideoStream
