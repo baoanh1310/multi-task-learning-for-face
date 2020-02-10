@@ -3,6 +3,7 @@
 
 # import the necessary packages
 from imutils.video import VideoStream
+from imutils.video import FPS
 import numpy as np
 import argparse
 import imutils
@@ -31,6 +32,9 @@ net = cv2.dnn.readNetFromCaffe(args["prototxt"], args["model"])
 print("[INFO] starting video stream...")
 vs = VideoStream(src=0).start()
 time.sleep(2.0)
+
+# start FPS counter
+fps = FPS().start()
 
 # load multi-task model
 sess = tf.InteractiveSession()
@@ -109,6 +113,14 @@ while True:
 	# if the `q` key was pressed, break from the loop
 	if key == ord("q"):
 		break
+
+	# update FPS counter
+	fps.update()
+
+# Display FPS info
+fps.stop()
+print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
+print("[INFO] approximate FPS: {:.2f}".format(fps.fps()))
 
 # do a bit of cleanup
 cv2.destroyAllWindows()

@@ -3,6 +3,7 @@
 
 # import the necessary packages
 from imutils.video import VideoStream
+from imutils.video import FPS
 import numpy as np
 import argparse
 import imutils
@@ -32,9 +33,13 @@ print("[INFO] starting video stream...")
 vs = VideoStream(src=0).start()
 time.sleep(2.0)
 
+# start FPS counter
+fps = FPS().start()
+
 # load multi-task model
 sess = tf.InteractiveSession()
 test_model = model.ResNet_v1(sess, False)
+test_model.count_trainable_params()
 
 SMILE_INDEX = {0: 'Not Smile', 1: 'Smile'}
 EMOTION_INDEX = {0: 'Angry', 1: 'Disgust', 2: 'Fear', 3: 'Happy', 4: 'Sad', 5: 'Surprise', 6: 'Neutral'}
@@ -101,7 +106,6 @@ while True:
 		cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 0, 255), 2)
 		cv2.putText(frame, text, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
 
-
 	# show the output frame
 	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
@@ -109,6 +113,14 @@ while True:
 	# if the `q` key was pressed, break from the loop
 	if key == ord("q"):
 		break
+
+	# update the FPS counter
+	fps.update()
+
+# stop the timer and display FPS information
+fps.stop()
+print("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
+print("[INFO] approximate FPS: {:.2f}".format(fps.fps()))
 
 # do a bit of cleanup
 cv2.destroyAllWindows()

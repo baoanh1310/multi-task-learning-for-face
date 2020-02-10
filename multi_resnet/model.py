@@ -57,6 +57,7 @@ class ResNet_v1:
             print('Created model with fresh parameters.')
             self.sess.run(tf.initialize_all_variables())
 
+    # Total training params: 3178753
     def count_trainable_params(self):
         total_parameters = 0
         for variable in tf.trainable_variables():
