@@ -1,5 +1,5 @@
 # USAGE
-# python image_demo_mtcnn.py --image sad.jpg
+# python new_image_demo.py --image 5people.jpeg
 
 import os
 import cv2
@@ -9,7 +9,9 @@ import time
 import argparse
 import imutils
 import numpy as np
+import matplotlib.pyplot as plt
 from mtcnn.mtcnn import MTCNN
+from PIL import Image
 
 import model
 import data_utils
@@ -31,7 +33,6 @@ ap.add_argument("-c", "--confidence", type=float, default=0.3,
 args = vars(ap.parse_args())
 
 sess = tf.InteractiveSession()
-
 # load multi-task model
 print("[INFO] loading multi task BKNet model...")
 test_model = model.Multitask_BKNet(sess, False)
@@ -41,6 +42,10 @@ print("OK!")
 def demo_image(image_name):
     image_path = os.path.join(os.getcwd(), image_name)
     image = cv2.imread(image_path)
+    image1 = Image.open(image_path)
+    image1 = image1.convert('RGB')
+    pixels = np.asarray(image1)
+    # image = imutils.resize(image, width=600)
     (h, w) = image.shape[:2]
 
     # load face detector
@@ -49,18 +54,21 @@ def demo_image(image_name):
     print("OK!")
 
     faces = detector.detect_faces(image)
+    nb_face = len(faces)
+    i = 1
     for face in faces:
         confidence = face['confidence']
 
         if confidence > DEFAULT_CONFIDENCE:
             x, y, width, height = face['box']
-            startX = x
-            startY = y
-            endX = startX + width
-            endY = startY + height
+            startX = int(x)
+            startY = int(y)
+            endX = int(startX + width)
+            endY = int(startY + height)
 
             # extract face ROI
             img_face = image[startY:endY, startX:endX]
+            raw_face = pixels[startY:endY, startX:endX]            
             img_face = cv2.cvtColor(img_face, cv2.COLOR_BGR2GRAY)
             img_face = cv2.resize(img_face, (48, 48))
             img_face = (img_face - 128.0) / 255
@@ -86,11 +94,14 @@ def demo_image(image_name):
             cv2.rectangle(image, (startX, startY), (endX, endY), (0, 0, 255), 2)
             cv2.putText(image, text, (startX, y),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
+            plt.subplot(1, nb_face, i)
+            plt.title(text)
+            plt.axis('off')
+            plt.imshow(raw_face)
+            i += 1
+
 
     new_image_path = os.path.join(os.getcwd(), 'new_' + image_name.split('.')[0] + '.jpg')
     cv2.imwrite(new_image_path, image)
 
-start = time.time()
 demo_image(args["image"])
-end = time.time()
-print('Time: {}s'.format(end - start))

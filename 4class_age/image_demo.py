@@ -95,4 +95,7 @@ def demo_image(image_name):
     new_image_path = os.path.join(os.getcwd(), 'new_' + image_name.split('.')[0] + '.jpg')
     cv2.imwrite(new_image_path, image)
 
+start = time.time()
 demo_image(args["image"])
+end = time.time()
+print('Time: {}s'.format(end - start))
