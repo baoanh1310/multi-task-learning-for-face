@@ -209,7 +209,7 @@ class Multitask_BKNet(object):
                             gender_nb_train += 1
                         else:
                             age_nb_train += 1
-                # batch_image = data_utils.augmentation(batch_image, 48)
+                batch_image = data_utils.augmentation(batch_image, 48)
 
                 feed_dict = {self.input_images: batch_image,
                             self.input_labels: batch_label,
