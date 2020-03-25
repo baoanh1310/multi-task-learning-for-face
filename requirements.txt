@@ -1,0 +1,13 @@
+h5py
+jupyter
+numpy
+opencv-python==3.4.2.17
+opencv-contrib-python==3.4.2.17
+pandas
+Pillow
+scikit-image
+scikit-learn
+scipy
+matplotlib
+imutils
+argparse
